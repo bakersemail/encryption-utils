@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyStore;
 import java.security.MessageDigest;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -26,17 +27,18 @@ import org.junit.Test;
 public class CertificateDownloadTest {
 	private static final String HOST = "myozbills.cloudfoundry.com";
 	private static final char[] KEYSTORE_PASSWORD = "changeit".toCharArray();
-	private static final String SOURCE_KEYSTORE = "cf.jks";
-	private static final String TARGET_KEYSTORE = "target/cf.keystore";
+	private static final String TARGET_KEYSTORE = "target/cf.bks";
 	
 	@Before
 	public void setup() {
 		new File(TARGET_KEYSTORE).delete();
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 	}
 
 	@Test
     public void downloadCertToFile() throws Exception {
-        KeyStore ks = loadKeystore(getClass().getClassLoader().getResourceAsStream(SOURCE_KEYSTORE));
+		KeyStore ks = KeyStore.getInstance("BKS");
+        ks.load(null, null);
 
         SSLContext context = SSLContext.getInstance("TLS");
         TrustManagerFactory tmf =
@@ -84,7 +86,7 @@ public class CertificateDownloadTest {
     }
 
 	private KeyStore loadKeystore(InputStream in) throws Exception {
-        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+        KeyStore ks = KeyStore.getInstance("BKS");
         ks.load(in, KEYSTORE_PASSWORD);
         in.close();
 		return ks;
