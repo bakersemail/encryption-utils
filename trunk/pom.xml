@@ -60,6 +60,13 @@
 	</dependencies>
 
 	<build>
+		<extensions>
+	    	<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.9</version>
+			</extension>
+    	</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.groovy.maven</groupId>
@@ -86,12 +93,12 @@
 		<repository>
 			<id>release.encyption-utils.googlecode.com</id>
 			<name>Google Code hosted repo</name>
-			<url>svn:https://encyption-utils.googlecode.com/svn/maven-repo/releases</url>
+			<url>svn:https://encryption-utils.googlecode.com/svn/maven-repo/releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>release.encyption-utils.googlecode.com</id>
+			<id>snapshot.encyption-utils.googlecode.com</id>
 			<name>Google Code hosted snapshot repo</name>
-			<url>svn:https://encyption-utils.googlecode.com/svn/maven-repo/snapshots</url>
+			<url>svn:https://encryption-utils.googlecode.com/svn/maven-repo/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
