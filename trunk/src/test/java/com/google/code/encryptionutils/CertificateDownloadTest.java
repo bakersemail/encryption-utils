@@ -73,10 +73,10 @@ public class CertificateDownloadTest {
             md5.update(cert.getEncoded());
         }
 
-        int k = 0;
-        X509Certificate cert = chain[k];
-        String alias = HOST + "-" + (k + 1);
-        ks.setCertificateEntry(alias, cert);
+        for (int i=0; i < chain.length; i++) {
+        	String alias = HOST + "-" + (i + 1);
+        	ks.setCertificateEntry(alias, chain[i]);
+        }
 
         OutputStream out = new FileOutputStream(TARGET_KEYSTORE);
         ks.store(out, KEYSTORE_PASSWORD);
