@@ -3,14 +3,14 @@
 
 	<groupId>com.google.code</groupId>
 	<artifactId>encryption-utils</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>encryption-utils</name>
 
 	<scm>
-		<url>https://encryption-utils.googlecode.com/svn/trunk/</url>
-		<connection>scm:svn:https://encryption-utils.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://encryption-utils.googlecode.com/svn/trunk/</developerConnection>
+		<url>https://encryption-utils.googlecode.com/svn/tags/encryption-utils-1.0</url>
+		<connection>scm:svn:https://encryption-utils.googlecode.com/svn/tags/encryption-utils-1.0</connection>
+		<developerConnection>scm:svn:https://encryption-utils.googlecode.com/svn/tags/encryption-utils-1.0</developerConnection>
 	</scm>
 
 	<dependencies>
@@ -90,12 +90,12 @@
 
 	<distributionManagement>
 		<repository>
-			<id>release.encyption-utils.googlecode.com</id>
+			<id>release.encryption-utils.googlecode.com</id>
 			<name>Google Code hosted repo</name>
 			<url>svn:https://encryption-utils.googlecode.com/svn/maven-repo/releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshot.encyption-utils.googlecode.com</id>
+			<id>snapshot.encryption-utils.googlecode.com</id>
 			<name>Google Code hosted snapshot repo</name>
 			<url>svn:https://encryption-utils.googlecode.com/svn/maven-repo/snapshots</url>
 		</snapshotRepository>
