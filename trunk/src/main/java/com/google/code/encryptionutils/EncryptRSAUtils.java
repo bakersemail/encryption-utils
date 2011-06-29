@@ -71,8 +71,8 @@ public class EncryptRSAUtils extends EncryptUtils {
 		return cipher.doFinal(data);
 	}
 	
-	private BigInteger[] readKeyParts(String base64Data) throws Exception {
-		ObjectInputStream oin = new ObjectInputStream(new ByteArrayInputStream(decode(base64Data)));
+	private BigInteger[] readKeyParts(String encodedData) throws Exception {
+		ObjectInputStream oin = new ObjectInputStream(new ByteArrayInputStream(decode(encodedData)));
 		try {
 			BigInteger m = (BigInteger) oin.readObject();
 			BigInteger e = (BigInteger) oin.readObject();
