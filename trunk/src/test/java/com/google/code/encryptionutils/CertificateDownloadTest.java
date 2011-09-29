@@ -9,9 +9,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyStore;
 import java.security.MessageDigest;
+import java.security.Provider;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
@@ -21,23 +24,61 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import com.sun.crypto.provider.SunJCE;
+
+@RunWith(Parameterized.class)
 public class CertificateDownloadTest {
-	private static final String HOST = "myozbills.cloudfoundry.com";
+	// Known self-signed cert test site
+	private static final String HOST = "www.pcwebshop.co.uk";
 	private static final char[] KEYSTORE_PASSWORD = "changeit".toCharArray();
-	private static final String TARGET_KEYSTORE = "target/cf.bks";
+	private static final String TARGET_KEYSTORE = "target/ks";
+	
+	@Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] 
+              {
+                { new BouncyCastleProvider(), "BKS" },
+              }
+        );
+    }
+	
+	private Provider provider;
+	private String providerType;
+	
+	public CertificateDownloadTest(Provider provider, String providerType) {
+		this.provider = provider;
+		this.providerType = providerType;
+	}
 	
 	@Before
 	public void setup() {
 		new File(TARGET_KEYSTORE).delete();
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		Security.addProvider(provider);
+	}
+	
+	@After
+	public void tearDown() {
+		Security.removeProvider(provider.getName());
 	}
 
 	@Test
     public void downloadCertToFile() throws Exception {
-		KeyStore ks = KeyStore.getInstance("BKS");
+		try {
+			testConnection(null);
+			fail("Should have thrown SSLException");
+		} catch (SSLException e) {
+			//expected
+		}
+		
+		KeyStore ks = KeyStore.getInstance(providerType);
         ks.load(null, null);
 
         SSLContext context = SSLContext.getInstance("TLS");
@@ -86,22 +127,29 @@ public class CertificateDownloadTest {
     }
 
 	private KeyStore loadKeystore(InputStream in) throws Exception {
-        KeyStore ks = KeyStore.getInstance("BKS");
+        KeyStore ks = KeyStore.getInstance(providerType);
         ks.load(in, KEYSTORE_PASSWORD);
         in.close();
 		return ks;
 	}
 
     private void verifyCertInstalled(KeyStore ks) throws Exception {
-        SSLContext context = SSLContext.getInstance("TLS");
-        TrustManagerFactory tmf =
-            TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         tmf.init(ks);
         X509TrustManager defaultTrustManager = (X509TrustManager)tmf.getTrustManagers()[0];
         SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
-        context.init(null, new TrustManager[] {tm}, null);
-        SSLSocketFactory factory = context.getSocketFactory();
+        
+        testConnection(tm);
+	}
 
+	private void testConnection(SavingTrustManager tm) throws Exception {
+		SSLContext context = SSLContext.getInstance("TLS");
+		context.init(null, null, null);
+		if (tm != null) {
+			context.init(null, new TrustManager[] {tm}, null);
+		}
+		
+        SSLSocketFactory factory = context.getSocketFactory();
         SSLSocket socket = (SSLSocket)factory.createSocket(HOST, 443);
         socket.setSoTimeout(10000);
         socket.startHandshake();
