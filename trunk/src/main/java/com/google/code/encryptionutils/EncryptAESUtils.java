@@ -7,8 +7,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptAESUtils extends EncryptUtils {
-	private Cipher cipher;
-	private SecretKeySpec skeySpec;
+	private final Cipher cipher;
+	private final SecretKeySpec skeySpec;
 	
 	public EncryptAESUtils(EncodingStrategy encodingStrategy, String key) {
 		super(encodingStrategy);
@@ -25,6 +25,7 @@ public class EncryptAESUtils extends EncryptUtils {
 		}
 	}
 
+	@Override
 	public byte[] encrypt(String input) {
 		try {
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
@@ -34,6 +35,7 @@ public class EncryptAESUtils extends EncryptUtils {
 		}
 	}
 	
+	@Override
 	public String decrypt(byte[] input) {
 		try {
 			cipher.init(Cipher.DECRYPT_MODE, skeySpec);

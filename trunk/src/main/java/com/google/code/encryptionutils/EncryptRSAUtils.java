@@ -45,7 +45,8 @@ public class EncryptRSAUtils extends EncryptUtils {
 		}
 	}
 	
-	byte[] encrypt(String input) {
+	@Override
+	public byte[] encrypt(String input) {
 		try {
 			return rsaEncrypt(input.getBytes("UTF-8"));
 		} catch (Exception e) {
@@ -53,9 +54,27 @@ public class EncryptRSAUtils extends EncryptUtils {
 		}
 	}
 	
-	String decrypt(byte[] input) {
+	@Override
+	public String decrypt(byte[] input) {
 		try {
 			return new String(rsaDecrypt(input), "UTF-8");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<String> generateKeyPair() {
+		try {
+			KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA_STRATEGY);
+			kpg.initialize(1024);
+			KeyPair kp = kpg.genKeyPair();
+			
+			RSAPublicKeySpec pub = factory.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
+			RSAPrivateKeySpec priv = factory.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
+			
+			byte[] pubData = writeKeyParts(pub.getModulus(), pub.getPublicExponent());
+			byte[] priData = writeKeyParts(priv.getModulus(), priv.getPrivateExponent());
+			return Arrays.asList(encode(pubData), encode(priData));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -92,23 +111,6 @@ public class EncryptRSAUtils extends EncryptUtils {
 		return factory.generatePrivate(keySpec);
 	}
 	
-	List<String> generateKeyPair() {
-		try {
-			KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA_STRATEGY);
-			kpg.initialize(1024);
-			KeyPair kp = kpg.genKeyPair();
-			
-			RSAPublicKeySpec pub = factory.getKeySpec(kp.getPublic(), RSAPublicKeySpec.class);
-			RSAPrivateKeySpec priv = factory.getKeySpec(kp.getPrivate(), RSAPrivateKeySpec.class);
-			
-			byte[] pubData = writeKeyParts(pub.getModulus(), pub.getPublicExponent());
-			byte[] priData = writeKeyParts(priv.getModulus(), priv.getPrivateExponent());
-			return Arrays.asList(encode(pubData), encode(priData));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	private byte[] writeKeyParts(BigInteger mod, BigInteger exp) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(out));
