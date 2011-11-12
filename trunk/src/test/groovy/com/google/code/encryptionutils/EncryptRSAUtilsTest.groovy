@@ -4,7 +4,7 @@ import org.junit.Before
 import org.junit.Test
 
 class EncryptRSAUtilsTest {
-	static final String INPUT = "some input"
+	static final String INPUT = 'some input'
 	static final ENCODING_STRATEGY = new Base32Encoding()
 		
 	String pbKey
@@ -19,6 +19,11 @@ class EncryptRSAUtilsTest {
 		prKey = keyPair[1]
 		
 		utils = new EncryptRSAUtils(ENCODING_STRATEGY, pbKey, prKey)
+	}
+	
+	@Test(expected = AssertionError)
+	void shouldThrowExceptionWhenNoStratProvided() {
+		new EncryptRSAUtils(null, null, null)
 	}
 	
 	@Test
