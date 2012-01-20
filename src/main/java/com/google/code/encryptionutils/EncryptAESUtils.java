@@ -1,7 +1,6 @@
 package com.google.code.encryptionutils;
 
 import java.security.MessageDigest;
-import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,8 +16,9 @@ public class EncryptAESUtils extends EncryptUtils {
 			cipher = Cipher.getInstance("AES");
 			
 			MessageDigest sha = MessageDigest.getInstance("SHA-1");
+			byte[] bKey = new byte[16];
 			//128bit sha-1 key
-			byte[] bKey = Arrays.copyOf(sha.digest(key.getBytes("UTF-8")), 16);
+			System.arraycopy(sha.digest(key.getBytes("UTF-8")), 0, bKey, 0, 16);
 			skeySpec = new SecretKeySpec(bKey, "AES");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
