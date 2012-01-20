@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metadata>
+<metadata modelVersion="1.1.0">
   <groupId>com.google.code</groupId>
   <artifactId>encryption-utils</artifactId>
   <version>1.2-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <timestamp>20110629.120605</timestamp>
-      <buildNumber>3</buildNumber>
+      <timestamp>20120120.143913</timestamp>
+      <buildNumber>4</buildNumber>
     </snapshot>
-    <lastUpdated>20110629120645</lastUpdated>
+    <lastUpdated>20120120143913</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>1.2-20120120.143913-4</value>
+        <updated>20120120143913</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.2-20120120.143913-4</value>
+        <updated>20120120143913</updated>
+      </snapshotVersion>
+    </snapshotVersions>
   </versioning>
 </metadata>
