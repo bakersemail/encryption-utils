@@ -3,14 +3,14 @@
 
 	<groupId>com.google.code</groupId>
 	<artifactId>encryption-utils</artifactId>
-	<version>1.2</version>
+	<version>1.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>encryption-utils</name>
 
 	<scm>
-		<url>https://encryption-utils.googlecode.com/svn/tags/encryption-utils-1.2</url>
-		<connection>scm:svn:https://encryption-utils.googlecode.com/svn/tags/encryption-utils-1.2</connection>
-		<developerConnection>scm:svn:https://encryption-utils.googlecode.com/svn/tags/encryption-utils-1.2</developerConnection>
+		<url>https://encryption-utils.googlecode.com/svn/trunk/</url>
+		<connection>scm:svn:https://encryption-utils.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://encryption-utils.googlecode.com/svn/trunk/</developerConnection>
 	</scm>
 
 	<dependencies>
