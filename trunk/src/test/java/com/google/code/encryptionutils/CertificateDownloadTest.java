@@ -32,12 +32,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sun.crypto.provider.SunJCE;
-
 @RunWith(Parameterized.class)
 public class CertificateDownloadTest {
 	// Known self-signed cert test site
-	private static final String HOST = "www.pcwebshop.co.uk";
+	private static final String HOST = "xpt.smartservice.qld.gov.au";
 	private static final char[] KEYSTORE_PASSWORD = "changeit".toCharArray();
 	private static final String TARGET_KEYSTORE = "target/ks";
 	
