@@ -8,11 +8,6 @@ class EncryptAESUtilsTest {
 	
 	EncryptUtils utils = new EncryptAESUtils(ENCODING_STRATEGY, 'some key')
 	
-	@Test(expected = AssertionError)
-	void shouldThrowExceptionWhenNoStratProvided() {
-		new EncryptAESUtils(null, null)
-	}
-	
 	@Test(expected = RuntimeException)
 	void shouldThrowExceptionWhenNullKey() {
 		new EncryptAESUtils(ENCODING_STRATEGY, null)

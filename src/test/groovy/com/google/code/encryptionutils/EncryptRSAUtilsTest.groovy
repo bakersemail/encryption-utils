@@ -21,11 +21,6 @@ class EncryptRSAUtilsTest {
 		utils = new EncryptRSAUtils(ENCODING_STRATEGY, pbKey, prKey)
 	}
 	
-	@Test(expected = AssertionError)
-	void shouldThrowExceptionWhenNoStratProvided() {
-		new EncryptRSAUtils(null, null, null)
-	}
-	
 	@Test
 	void shouldGenerateKeyPairAndEncryptAndDecrypt() {
 		EncryptRSAUtils utils = new EncryptRSAUtils(ENCODING_STRATEGY, null, null)

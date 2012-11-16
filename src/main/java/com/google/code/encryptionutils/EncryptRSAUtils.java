@@ -14,7 +14,6 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Arrays;
@@ -25,18 +24,19 @@ import javax.crypto.Cipher;
 public class EncryptRSAUtils extends EncryptUtils {
 	private static final String RSA_STRATEGY = "RSA";
 	
-	private final Cipher cipher;
 	private final KeyFactory factory;
 	
 	private Key publicKey;
 	private Key privateKey;
+
+	private Cipher cipher;
 	
 	public EncryptRSAUtils(EncodingStrategy encodingStrategy, String encodedPublicKey, String encodedPrivateKey) throws Exception {
 		super(encodingStrategy);
-		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 		
-		factory = KeyFactory.getInstance(RSA_STRATEGY, "BC");
-		cipher = Cipher.getInstance(RSA_STRATEGY, "BC");
+		factory = KeyFactory.getInstance(RSA_STRATEGY);
+		cipher = Cipher.getInstance(RSA_STRATEGY);
+		
 		if (encodedPublicKey != null) {
 			publicKey = readPublicKey(readKeyParts(encodedPublicKey));
 		}
